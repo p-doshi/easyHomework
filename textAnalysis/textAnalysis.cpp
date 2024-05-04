@@ -20,7 +20,7 @@ public:
 
         CURL *curl = curl_easy_init();
         if (curl) {
-            curl_easy_setopt(curl, CURLOPT_URL, "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");
+            curl_easy_setopt(curl, CURLOPT_URL, apiKey.c_str());
             curl_easy_setopt(curl, CURLOPT_POST, 1L);
             std::string postData = "text=" + extractedText;
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postData.c_str());
@@ -75,6 +75,12 @@ int main() {
     // Example extracted text
     string extractedText = "This is an example extracted text. It declares a variable, initializes it, and has a loop.";
 
+    const char* apiKeyEnv = std::getenv("GPT_API_KEY");
+    if (!apiKeyEnv) {
+        std::cerr << "Error: GPT_API_KEY environment variable not set." << std::endl;
+        return 1; // Exit with error
+    }
+    std::string apiKey(apiKeyEnv);
     // Instantiate textAnalysis object
     textAnalysis textanalysis;
 
